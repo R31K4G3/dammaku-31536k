@@ -40,7 +40,7 @@ export const moveAndDrawShots = ({ hit, grazed }) => {
   const { x: pX, y: pY } = getPlayerPos();
   locked = true;
   for (let i = max - shotStructureSize; i >= min; i -= shotStructureSize) {
-    if (!(i in shotsBuffer)) continue;
+    if (shotsBuffer[i] === -1) continue;
     if (moveAndDrawShot(i)) {
       notFound = false;
       tmpMin = i;
@@ -58,8 +58,7 @@ export const moveAndDrawShots = ({ hit, grazed }) => {
       }
       continue;
     }
-    for (let j = 0; j < shotStructureSize; j++)
-      delete shotsBuffer[i + j];
+    shotsBuffer[i] = -1;
     if (notFound) tmpMax = i;
   }
   if (tmpMin >= tmpMax) tmpMin = tmpMax = 0;
